@@ -1,44 +1,69 @@
 import "./App.css";
-import MentorCard from "./Components/MentorCard";
-import CardWrapper from "./Components/CardWrapper";
+import { useState } from "react";
+import GreetingHeading from "./Components/GreetingHeading";
 
 function App() {
+  const [title, setTitle] = useState("Hola koders");
+  const [user, setUser] = useState({});
+  const [selectedLanguage, setSelectedLanguage] = useState("es");
+  const greetingMap = {
+    es: "Buenos días!",
+    en: "Good morning!",
+    fr: "Bonjour",
+  };
+
+  const radioHandler = (event) => {
+    setSelectedLanguage(event.target.value);
+  };
   return (
     <>
-      <MentorCard
-        name="Israel"
-        description="Hola, soy mentor front-end de kodemia"
-      />
-      <MentorCard
-        name="Charles"
-        description="Hola, soy mentor back-end de kodemia"
-      />
-
-      <CardWrapper>
-        <img src="" alt="" />
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat,
-          similique!
-        </p>
-        <h1>Lorem ipsum dolor sit amet.</h1>
-        <input type="text" />
-        <input type="text" />
-        <input type="text" />
-      </CardWrapper>
-
-      <CardWrapper>
-        <h1>Contenido 1</h1>
-      </CardWrapper>
-
-      <CardWrapper>
-        <ul>
-          <li>item 01</li>
-          <li>item 02</li>
-          <li>item 03</li>
-          <li>item 04</li>
-          <li>item 05</li>
-        </ul>
-      </CardWrapper>
+      <div className="container div row div col-12">
+        <div className="d-flex">
+          <div class="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="language"
+              value="es"
+              checked={selectedLanguage === "es"}
+              onChange={(event) => radioHandler(event)}
+            />
+            <label className="form-check-label" for="flexRadioDefault1">
+              ES
+            </label>
+          </div>
+          <div class="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="language"
+              value="en"
+              checked={selectedLanguage === "en"}
+              onChange={(event) => radioHandler(event)}
+            />
+            <label className="form-check-label" for="flexRadioDefault1">
+              EN
+            </label>
+          </div>
+          <div class="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="language"
+              value="fr"
+              checked={selectedLanguage === "fr"}
+              onChange={(event) => radioHandler(event)}
+            />
+            <label className="form-check-label" for="flexRadioDefault1">
+              FR
+            </label>
+          </div>
+        </div>
+        <GreetingHeading
+          text={greetingMap[selectedLanguage]}
+          bg={"bg-dark text-white"}
+        />
+      </div>
     </>
   );
 }
