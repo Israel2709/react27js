@@ -57,7 +57,6 @@ function App() {
     const data = await response.json();
     setUpdate(!update);
   };
-
   const loginHandler = () => {
     if (!isLogged) {
       const token = "123456";
@@ -68,7 +67,6 @@ function App() {
       setIsLogged(!isLogged);
     }
   };
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     console.log("token: ", token);
