@@ -9,6 +9,7 @@ function App() {
   const [test2, setTest2] = useState(true);
   const [update, setUpdate] = useState(false);
   const [songData, setSongData] = useState({});
+  const [isLogged, setIsLogged] = useState(false);
 
   //useEffect(callback, dependencyArray)
 
@@ -35,7 +36,6 @@ function App() {
   };
 
   const saveSong = async () => {
-    console.log(songData);
     const response = await fetch(
       "https://javascript27g-default-rtdb.firebaseio.com/playlist/.json",
       {
@@ -45,11 +45,9 @@ function App() {
     );
     const data = await response.json();
     setUpdate(!update);
-    console.log(data);
   };
 
   const deleteHandler = async (key) => {
-    console.log(key);
     const response = await fetch(
       `https://javascript27g-default-rtdb.firebaseio.com/playlist/${key}.json`,
       {
@@ -58,43 +56,70 @@ function App() {
     );
     const data = await response.json();
     setUpdate(!update);
-    console.log(data);
   };
+
+  const loginHandler = () => {
+    if (!isLogged) {
+      const token = "123456";
+      localStorage.setItem("token", token);
+      setIsLogged(!isLogged);
+    } else if (isLogged) {
+      localStorage.removeItem("token");
+      setIsLogged(!isLogged);
+    }
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    console.log("token: ", token);
+    token ? setIsLogged(true) : setIsLogged(false);
+  }, []);
   return (
     <>
       <div className="container">
         <div className="row">
-          <div className="col-12 col-md-6 pb-3">
-            <h1>Registra una canción:</h1>
-
-            <form action="" className="bg-dark text-white p-3 border rounded">
-              <div className="form-group mb-3">
-                <label htmlFor="">Song Name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="name"
-                  onChange={inputHandler}
-                />
-              </div>
-              <div className="form-group mb-3">
-                <label htmlFor="">Artist</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="artist"
-                  onChange={inputHandler}
-                />
-              </div>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={saveSong}
-              >
-                guardar
+          <div className="col-12">
+            <div className="d-flex justify-content-end">
+              <button className="btn btn-success" onClick={loginHandler}>
+                {isLogged ? "Log out" : "Log in"}
               </button>
-            </form>
+            </div>
           </div>
+        </div>
+        <div className="row">
+          {isLogged && (
+            <div className="col-12 col-md-6 pb-3">
+              <h1>Registra una canción:</h1>
+
+              <form action="" className="bg-dark text-white p-3 border rounded">
+                <div className="form-group mb-3">
+                  <label htmlFor="">Song Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="name"
+                    onChange={inputHandler}
+                  />
+                </div>
+                <div className="form-group mb-3">
+                  <label htmlFor="">Artist</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="artist"
+                    onChange={inputHandler}
+                  />
+                </div>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={saveSong}
+                >
+                  guardar
+                </button>
+              </form>
+            </div>
+          )}
           <div className="col-12 col-md-6 pb-3">
             <h1 className="d-flex justify-content-between align-items-center">
               Lista de canciones:{" "}
