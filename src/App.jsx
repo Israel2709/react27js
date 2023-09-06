@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 //https://javascript27g-default-rtdb.firebaseio.com/koders
 
@@ -10,6 +10,9 @@ function App() {
   const [update, setUpdate] = useState(false);
   const [songData, setSongData] = useState({});
   const [isLogged, setIsLogged] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const [favSongs, setFavSongs] = useState([]);
+  const [scrollPosition, setScrollPosition] = useState(0);
 
   //useEffect(callback, dependencyArray)
 
@@ -67,11 +70,65 @@ function App() {
       setIsLogged(!isLogged);
     }
   };
+
+  const addToFav = async (key) => {
+    const response = await fetch(
+      `https://javascript27g-default-rtdb.firebaseio.com/isra/favs/.json`
+    );
+    const favs = await response.json();
+    console.log(favs);
+    const updatedFavs = favs ? [...favs, key] : [key];
+    console.log(updatedFavs);
+
+    const update = await fetch(
+      `https://javascript27g-default-rtdb.firebaseio.com/isra/favs/.json`,
+      {
+        method: "PUT",
+        body: JSON.stringify(updatedFavs),
+      }
+    );
+
+    const result = await update.json();
+
+    console.log(result);
+  };
+
+  useEffect(() => {
+    const getUserData = async (userKey) => {
+      const response = await fetch(
+        `https://javascript27g-default-rtdb.firebaseio.com/${userKey}/.json`
+      );
+      const data = await response.json();
+      const userSongs = songs && data.favs.map((song) => songs[song]);
+      console.log(userSongs);
+
+      setUserData(data);
+      setFavSongs(userSongs);
+    };
+    getUserData("isra");
+  }, [songs]);
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     console.log("token: ", token);
     token ? setIsLogged(true) : setIsLogged(false);
   }, []);
+
+  const handleScroll = () => {
+    const position = window.pageYOffset;
+    setScrollPosition(position);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const testRef = useRef(null);
+  console.log(testRef);
   return (
     <>
       <div className="container">
@@ -135,6 +192,12 @@ function App() {
                   >
                     {songs[key].name}: {songs[key].artist}
                     <button
+                      className="btn btn-primary"
+                      onClick={() => addToFav(key)}
+                    >
+                      Agregar a Favoritas
+                    </button>
+                    <button
                       className="btn btn-danger"
                       onClick={() => deleteHandler(key)}
                     >
@@ -143,6 +206,23 @@ function App() {
                   </li>
                 ))}
             </ul>
+
+            <h1 ref={testRef}>Favoritas de Isra</h1>
+            <ul className="list-group">
+              {favSongs &&
+                favSongs.map((song) => (
+                  <li className="list-group-item">
+                    {song.name} {song.artist}
+                  </li>
+                ))}
+            </ul>
+            <button
+              onClick={() => {
+                testRef.current = null;
+              }}
+            >
+              Borrar referencia
+            </button>
           </div>
         </div>
       </div>
