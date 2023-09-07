@@ -1,9 +1,24 @@
 import "./App.css";
+import UsersList from "./Pages/UsersList";
+
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 
 function App() {
   const [usersList, setUsersList] = useState([]);
+
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <UsersList usersList={usersList} />,
+    },
+    {
+      path: "/detail",
+      element: <div>detail</div>,
+    },
+  ]);
+
   useEffect(() => {
     const getUsers = async () => {
       const response = await fetch(
@@ -15,64 +30,91 @@ function App() {
     getUsers();
   }, []);
 
-  const createUserList = () => {
-    return <h1>usersList</h1>;
-  };
-
-  const createUserDetail = () => {
-    return <h1>User detail</h1>;
-  };
-
-  const chooseContent = (path) => {
-    switch (path) {
-      case "list":
-        return createUserList();
-
-      case "detail":
-        return createUserDetail();
-
-      default:
-        return <h1>Not found u.u </h1>;
-    }
-  };
   return (
-    <div className="container">
-      <div className="row">
-        {chooseContent("list")}
-        {chooseContent("detail")}
-        {chooseContent("shop")}
-
-        {/*
-<div className="col-12">
-          <h1>Lista de usuarios</h1>
-          <ul className="list-group">
-            {usersList.map((user) => {
-              const { name, login, picture } = user;
-              return (
-                <li
-                  key={login.uuid}
-                  className="list-group-item d-flex justify-content-around align-items-center"
+    <>
+      <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <div className="container-fluid">
+          <a className="navbar-brand" href="#">
+            Navbar
+          </a>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                <a className="nav-link active" aria-current="page" href="#">
+                  Home
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#">
+                  Link
+                </a>
+              </li>
+              <li className="nav-item dropdown">
+                <a
+                  className="nav-link dropdown-toggle"
+                  href="#"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
                 >
-                  <div style={{ width: "50px", height: "50px" }}>
-                    <img
-                      src={picture.thumbnail}
-                      alt=""
-                      className="rounded-circle img-fluid"
-                    />
-                  </div>
-
-                  <span className="fs-1">
-                    {name.first} {name.last}
-                  </span>
-                  <button className="btn btn-primary">Detalle</button>
-                </li>
-              );
-            })}
-          </ul>
+                  Dropdown
+                </a>
+                <ul className="dropdown-menu">
+                  <li>
+                    <a className="dropdown-item" href="#">
+                      Action
+                    </a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="#">
+                      Another action
+                    </a>
+                  </li>
+                  <li>
+                    <hr className="dropdown-divider" />
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="#">
+                      Something else here
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link disabled" aria-disabled="true">
+                  Disabled
+                </a>
+              </li>
+            </ul>
+            <form className="d-flex" role="search">
+              <input
+                className="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+              />
+              <button className="btn btn-outline-success" type="submit">
+                Search
+              </button>
+            </form>
+          </div>
         </div>
-          */}
+      </nav>
+      <div className="container">
+        <RouterProvider router={router} />
       </div>
-    </div>
+    </>
   );
 }
 
