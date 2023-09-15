@@ -1,0 +1,48 @@
+$kodeBlack: #222;
+$kodeBlue: #0884f5;
+$kodeGray: #666;
+$kodeLightGray: rgba(0, 0, 0, 0.1);
+$sizeBase: 1rem;
+
+//1rem = 16px
+
+$colors: (
+  "kode-black": $kodeBlack,
+  "kode-blue": $kodeBlue,
+  "kode-gray": $kodeGray,
+);
+
+$fontSizes: (
+  "xs": 0.75 * $sizeBase,
+  "base": $sizeBase,
+  "md": 1.25 * $sizeBase,
+  "lg": 2 * $sizeBase,
+  "xl": 3 * $sizeBase,
+);
+
+@each $name, $color in $colors {
+  .bg-#{$name} {
+    background-color: $color !important;
+  }
+  .txt-#{$name} {
+    color: $color !important;
+  }
+  .borde-#{$name} {
+    border-color: $color !important;
+  }
+}
+
+@each $name, $size in $fontSizes {
+  .font-size-#{$name} {
+    font-size: $size !important;
+  }
+}
+
+.kode-btn {
+  padding: 10px 50px;
+  border-radius: 1rem;
+  border: 1px solid $kodeLightGray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

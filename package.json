@@ -11,10 +11,14 @@
   },
   "dependencies": {
     "bootstrap": "^5.3.1",
+    "classnames": "^2.3.2",
+    "moment": "^2.29.4",
+    "node-sass": "^9.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.46.1",
-    "react-router-dom": "^6.15.0"
+    "react-router-dom": "^6.16.0",
+    "sass": "^1.67.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

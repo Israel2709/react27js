@@ -1,0 +1,64 @@
+.bg-kode-black {
+  background-color: #222 !important;
+}
+
+.txt-kode-black {
+  color: #222 !important;
+}
+
+.borde-kode-black {
+  border-color: #222 !important;
+}
+
+.bg-kode-blue {
+  background-color: #0884f5 !important;
+}
+
+.txt-kode-blue {
+  color: #0884f5 !important;
+}
+
+.borde-kode-blue {
+  border-color: #0884f5 !important;
+}
+
+.bg-kode-gray {
+  background-color: #666 !important;
+}
+
+.txt-kode-gray {
+  color: #666 !important;
+}
+
+.borde-kode-gray {
+  border-color: #666 !important;
+}
+
+.font-size-xs {
+  font-size: 0.75rem !important;
+}
+
+.font-size-base {
+  font-size: 1rem !important;
+}
+
+.font-size-md {
+  font-size: 1.25rem !important;
+}
+
+.font-size-lg {
+  font-size: 2rem !important;
+}
+
+.font-size-xl {
+  font-size: 3rem !important;
+}
+
+.kode-btn {
+  padding: 10px 50px;
+  border-radius: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}/*# sourceMappingURL=App.css.map */
